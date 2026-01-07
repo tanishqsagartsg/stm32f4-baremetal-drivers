@@ -1,0 +1,24 @@
+# Build output
+Debug/
+Release/
+build/
+
+# STM32CubeIDE files
+.settings/
+.project
+.cproject
+*.launch
+.mxproject
+*.ioc
+
+# Linker & binaries
+*.elf
+*.hex
+*.bin
+*.map
+*.o
+*.ld
+
+# OS junk
+.DS_Store
+Thumbs.db
