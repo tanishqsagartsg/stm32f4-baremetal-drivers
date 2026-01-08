@@ -6,8 +6,9 @@
  */
 
 
-#include "stm32f407xx_gpio_driver.h"
-#include "stm32f407xx.h"
+#include "../../Custom_Driver/Inc/stm32f407xx_gpio_driver.h"
+
+#include "../../Custom_Driver/Inc/stm32f407xx.h"
 
 
 /*====================================================================
@@ -44,7 +45,7 @@
 //PERIPHERAL CLOCK SETUP===============================================
 void GPIO_PeriClockControl(GPIO_RegDef_t *pGPIOx, uint8_t EnorDi)
 {
-    if (EnorDi == 1)
+    if (EnorDi == EN)
     {
         if (pGPIOx == GPIOA)      { GPIOA_PCLK_EN(); }
         else if (pGPIOx == GPIOB) { GPIOB_PCLK_EN(); }
