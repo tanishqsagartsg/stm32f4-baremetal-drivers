@@ -74,7 +74,7 @@ typedef struct
 //@GPIO_PIN_OP_TYPE
 //GPIO PINS POSSIBLE OUTPUT TYPES======================================
 #define GPIO_OP_TYPE_PP		0
-#define GPIO_OP_TYPE_PD 	1
+#define GPIO_OP_TYPE_OD 	1
 //=====================================================================
 
 
@@ -123,7 +123,8 @@ void GPIO_ToggleOutputPin(GPIO_RegDef_t *pGPIOx, uint8_t PinNumber);
 
 
 //INTERRUPT HANDLING===================================================
-void GPIO_IRQConfig(uint8_t IRQNumber, uint8_t IRQPriority, uint8_t EnorDi);
+void GPIO_IRQInterruptConfig(uint8_t IRQNumber, uint8_t EnorDi);
+void GPIO_IRQPriorityConfig(uint8_t IRQNumber, uint8_t IRQPriority);
 void GPIO_IRQHandling(uint8_t PinNumber);
 
 
