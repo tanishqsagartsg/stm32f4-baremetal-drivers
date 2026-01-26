@@ -137,4 +137,11 @@ void SPI_SSI_CONFIG(SPI_RegDef_t *pSPIx, uint8_t EnOrDi);
 //=================================================================================================================================
 
 
+//THIS IS TO ENABLE THE SPI SSI AS WHEN WE ARE NOT USING NSS THE SPI HAS TO BE PULLED TO HIGH ELSE IT WONT WORK AS MASTER WHEN WE INTIALIZE IT
+void SPI_SSOE_CONFIG(SPI_RegDef_t *pSPIx, uint8_t EnOrDi);
+//=================================================================================================================================
+
+
+
+
 #endif /* INC_STM32F407XX_SPI_DRIVER_H_ */
