@@ -11,24 +11,6 @@
 
 
 
-//PROCESSOR SPECIFIC REGISTER ADDRESSES========================================================================================
-
-//NVIC ISER REGISTER ADDRESSES=================================================================================================
-#define NVIC_ISER0 			((volatile uint32_t*)0xE000E100)
-#define NVIC_ISER1 			((volatile uint32_t*)0xE000E104)
-#define NVIC_ISER2 			((volatile uint32_t*)0xE000E108)
-#define NVIC_ISER3 			((volatile uint32_t*)0xE000E10C)
-
-//NVIC ICER REGISTER ADDRESSES=================================================================================================
-#define NVIC_ICER0 			((volatile uint32_t*)0xE000E180)
-#define NVIC_ICER1 			((volatile uint32_t*)0xE000E184)
-#define NVIC_ICER2 			((volatile uint32_t*)0xE000E188)
-#define NVIC_ICER3 			((volatile uint32_t*)0xE000E18C)
-//=============================================================================================================================
-
-#define NVIC_PR_BASE_ADDR 	((volatile uint32_t*)0xE000E400)
-#define NO_PR_BITS_IMPLEMENTED 		4
-
 
 //SOME GENERIC MACROS==========================================================================================================
 #define EN         				1U
@@ -104,6 +86,29 @@
 
 
 
+
+//PROCESSOR SPECIFIC REGISTER ADDRESSES========================================================================================
+
+//NVIC ISER REGISTER ADDRESSES=================================================================================================
+#define NVIC_ISER0 			((volatile uint32_t*)0xE000E100)
+#define NVIC_ISER1 			((volatile uint32_t*)0xE000E104)
+#define NVIC_ISER2 			((volatile uint32_t*)0xE000E108)
+#define NVIC_ISER3 			((volatile uint32_t*)0xE000E10C)
+
+//NVIC ICER REGISTER ADDRESSES=================================================================================================
+#define NVIC_ICER0 			((volatile uint32_t*)0xE000E180)
+#define NVIC_ICER1 			((volatile uint32_t*)0xE000E184)
+#define NVIC_ICER2 			((volatile uint32_t*)0xE000E188)
+#define NVIC_ICER3 			((volatile uint32_t*)0xE000E18C)
+//=============================================================================================================================
+
+#define NVIC_PR_BASE_ADDR 	((volatile uint32_t*)0xE000E400)
+#define NO_PR_BITS_IMPLEMENTED 		4
+
+
+
+
+
 //REGISTER PRESENT IN GPIO BASE ADDR===========================================================================================
 typedef struct
 {
@@ -160,6 +165,8 @@ typedef struct
 //=================================================================================================================================
 
 
+
+
 //=================================================================================================================================
 typedef struct{
 	volatile uint32_t IMR;
@@ -170,6 +177,9 @@ typedef struct{
 	volatile uint32_t PR;
 }EXTI_RegDef_t;
 //=================================================================================================================================
+
+
+
 
 typedef struct{
 	volatile uint32_t MEMRMP;
@@ -321,6 +331,7 @@ typedef struct{
 /* ---------------- APB2 : SYSCFG ---------------- */
 #define SYSCFG_PCLK_DN()  (RCC->APB2ENR &= ~(1 << 14))
 //====================================================================================================================================
+
 
 
 

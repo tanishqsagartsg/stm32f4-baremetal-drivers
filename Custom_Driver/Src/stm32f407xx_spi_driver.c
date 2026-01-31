@@ -61,34 +61,34 @@ void SPI_Init(SPI_Handle_t *pSPIHandle){
 	SPI_PeriClockControl(pSPIHandle->pSPIx, EN);
 
 	//configure the device mode
-	tempreg |= pSPIHandle->SPIConfig.SPI_DeviceMode << 2;
+	tempreg |= pSPIHandle->SPIConfig.SPI_DeviceMode << SPI_CR1_MSTR;
 
 	//configure the bus speed
 	if(pSPIHandle->SPIConfig.SPI_BusConfig == SPI_BUS_CONFIG_FD){
 		//BIDIMODE should be cleared
-		tempreg &= ~(1 << 15);
+		tempreg &= ~(1 << SPI_CR1_BIDIMODE);
 	}
 	else if(pSPIHandle->SPIConfig.SPI_BusConfig == SPI_BUS_CONFIG_HD){
 		//BIDIMODE should be set
-		tempreg |= (1 << 15);
+		tempreg |= (1 << SPI_CR1_BIDIMODE);
 	}
 	else if(pSPIHandle->SPIConfig.SPI_BusConfig == SPI_BUS_CONFIG_SIMPLEX_RXONLY){
 		//RX_ONLY bit is to be set
-		tempreg |= (1 << 10);
+		tempreg |= (1 << SPI_CR1_RXONLY);
 		//BIDIMODE should be cleared
-		tempreg &= ~(1 << 15);
+		tempreg &= ~(1 << SPI_CR1_BIDIMODE);
 	}
 	//configure the SPI serial clock speed (baud rate)
-	tempreg |= pSPIHandle->SPIConfig.SPI_SclkSpeed << 3;
+	tempreg |= pSPIHandle->SPIConfig.SPI_SclkSpeed << SPI_CR1_BR;
 
 	// configure the DFF
-	tempreg |= pSPIHandle->SPIConfig.SPI_DFF << 11;
+	tempreg |= pSPIHandle->SPIConfig.SPI_DFF << SPI_CR1_DFF;
 
 	// configure the CPOL
-	tempreg |= pSPIHandle->SPIConfig.SPI_CPOL << 1;
+	tempreg |= pSPIHandle->SPIConfig.SPI_CPOL << SPI_CR1_CPOL;
 
 	// configure the CPHA
-	tempreg |= pSPIHandle->SPIConfig.SPI_CPHA << 0;
+	tempreg |= pSPIHandle->SPIConfig.SPI_CPHA << SPI_CR1_CPHA;
 
 	pSPIHandle->pSPIx->CR1 = tempreg;
 
@@ -154,7 +154,30 @@ void SPI_SendData(SPI_RegDef_t *pSPIx, uint8_t *pTXBuffer, uint32_t Len){
 
 
 
-void SPI_RecieveData(SPI_RegDef_t *pSPIx, uint8_t *pRXBuffer, uint32_t Len);
+void SPI_RecieveData(SPI_RegDef_t *pSPIx, uint8_t *pRXBuffer, uint32_t Len){
+	while(Len > 0)
+		{
+			//wait until RXNE flag is set
+			while(SPI_GetFlagStatus(pSPIx, SPI_RXNE_FLAG)== FLAG_RESET);
+
+			//CHECK DFF BIT IN CR1
+			if(pSPIx->CR1 & (1 << SPI_CR1_DFF)){
+				//16 BIT DFF
+				//LOAD DATA FROM DR
+				*((uint16_t*)pRXBuffer) = pSPIx->DR;
+				Len--;
+				Len--;
+				(uint16_t*)pRXBuffer++;
+			}
+			else{
+				//8 BIT DFF
+				//LOAD DATA FROM DR
+				*pRXBuffer = pSPIx->DR;
+				Len--;
+				pRXBuffer++;
+			}
+		}
+}
 //===================================================
 
 /*====================================================================
