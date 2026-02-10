@@ -8,19 +8,11 @@
 #include"stm32f407xx_spi_driver.h"
 #include "stm32f407xx.h"
 
-/*====================================================================
- * FUNCTION:
- *
- * BRIEF:
- *
- * PARAMETER 1:
- * PARAMETER 2:
- * PARAMETER 3:
- *
- * RETURN:
- *
- * NOTE:
- ====================================================================*/
+
+
+
+
+
 //PERIPHERAL CLOCK SETUP===============================================
 void SPI_PeriClockControl(SPI_RegDef_t *pSPIx, uint8_t EnorDi){
 	if (EnorDi == EN)
@@ -39,19 +31,9 @@ void SPI_PeriClockControl(SPI_RegDef_t *pSPIx, uint8_t EnorDi){
 	    }
 }
 
-/*====================================================================
- * FUNCTION:
- *
- * BRIEF:
- *
- * PARAMETER 1:
- * PARAMETER 2:
- * PARAMETER 3:
- *
- * RETURN:
- *
- * NOTE:
- ====================================================================*/
+
+
+
 //INIT DEINIT==========================================================
 void SPI_Init(SPI_Handle_t *pSPIHandle){
 	//first lets configure SPI_CR1 register
@@ -180,19 +162,10 @@ void SPI_RecieveData(SPI_RegDef_t *pSPIx, uint8_t *pRXBuffer, uint32_t Len){
 }
 //===================================================
 
-/*====================================================================
- * FUNCTION:
- *
- * BRIEF:
- *
- * PARAMETER 1:
- * PARAMETER 2:
- * PARAMETER 3:
- *
- * RETURN:
- *
- * NOTE:
- ====================================================================*/
+
+
+
+
 //INTERRUPT HANDLING===================================================
 void SPI_IRQInterruptConfig(uint8_t IRQNumber, uint8_t EnorDi);
 void SPI_IRQPriorityConfig(uint8_t IRQNumber, uint8_t IRQPriority);
@@ -201,21 +174,11 @@ void SPI_IRQHandling(SPI_Handle_t *pHandle);
 
 
 
-//OTHER PERIPHERAL CONTROL API SUPPORTED BY SPI====================================================================================
 
-/*====================================================================
- * FUNCTION:
- *
- * BRIEF:
- *
- * PARAMETER 1:
- * PARAMETER 2:
- * PARAMETER 3:
- *
- * RETURN:
- *
- * NOTE:
- ====================================================================*/
+
+
+
+//OTHER PERIPHERAL CONTROL API SUPPORTED BY SPI====================================================================================
 //THIS IS TO ENABLE THE SPI PERIPHERAL AND WIHTOUT ENABLING THIS SPI WONT WORK
 void SPI_PeripheralContol(SPI_RegDef_t *pSPIx, uint8_t EnOrDi){
 	if(EnOrDi == EN){

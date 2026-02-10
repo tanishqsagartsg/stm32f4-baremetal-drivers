@@ -11,19 +11,11 @@
 #include "../../Custom_Driver/Inc/stm32f407xx.h"
 
 
-/*====================================================================
- * FUNCTION:
- *
- * BRIEF:
- *
- * PARAMETER 1:
- * PARAMETER 2:
- * PARAMETER 3:
- *
- * RETURN:
- *
- * NOTE:
- ====================================================================*/
+
+
+
+
+
 
 
 //888888888888888888888888888888888888888888888888888888888888888888888
@@ -73,18 +65,21 @@ void GPIO_PeriClockControl(GPIO_RegDef_t *pGPIOx, uint8_t EnorDi)
 //====================================================================
 
 
+
+
+
 /*====================================================================
- * FUNCTION:
+ * FUNCTION:	GPIO_Init
  *
  * BRIEF:
  *
- * PARAMETER 1:
- * PARAMETER 2:
+ * PARAMETER 1: GPIO_RegDef_t *pGPIOx
+ * PARAMETER 2: pGPIOHandle
  * PARAMETER 3:
  *
- * RETURN:
+ * RETURN: 		NONE
  *
- * NOTE:
+ * NOTE: 		NONE
  ====================================================================*/
 //INIT DEINIT==========================================================
 void GPIO_Init(GPIO_Handle_t *pGPIOHandle)
@@ -183,19 +178,9 @@ void GPIO_Init(GPIO_Handle_t *pGPIOHandle)
 
 
 
-/*====================================================================
- * FUNCTION:
- *
- * BRIEF:
- *
- * PARAMETER 1:
- * PARAMETER 2:
- * PARAMETER 3:
- *
- * RETURN:
- *
- * NOTE:
- ====================================================================*/
+
+
+//====================================================================
 void GPIO_DeInit(GPIO_RegDef_t *pGPIOx)
 {
 	if (pGPIOx == GPIOA)      { GPIOA_REG_RESET(); }
@@ -210,22 +195,15 @@ void GPIO_DeInit(GPIO_RegDef_t *pGPIOx)
 
 }
 
+//====================================================================
+
+
+
 
 
 //READ AND WRITE=======================================================
-/*====================================================================
- * FUNCTION:
- *
- * BRIEF:
- *
- * PARAMETER 1:
- * PARAMETER 2:
- * PARAMETER 3:
- *
- * RETURN:
- *
- * NOTE:
- ====================================================================*/
+
+
 uint8_t GPIO_ReadFromInputPin(GPIO_RegDef_t *pGPIOx, uint8_t PinNumber)
 {
 	uint8_t value;
@@ -243,19 +221,11 @@ uint16_t GPIO_ReadFromInputPort(GPIO_RegDef_t *pGPIOx)
 	return value;
 }
 
-/*====================================================================
- * FUNCTION:
- *
- * BRIEF:
- *
- * PARAMETER 1:
- * PARAMETER 2:
- * PARAMETER 3:
- *
- * RETURN:
- *
- * NOTE:
- ====================================================================*/
+
+
+
+//====================================================================
+
 void GPIO_WriteToOutputPin(GPIO_RegDef_t *pGPIOx, uint8_t PinNumber, uint8_t Value)
 {
 	if(Value==GPIO_PinSet){
@@ -282,6 +252,7 @@ void GPIO_ToggleOutputPin(GPIO_RegDef_t *pGPIOx, uint8_t PinNumber)
 
 }
 
+//====================================================================
 
 
 //INTERRUPT HANDLING===================================================
@@ -340,19 +311,9 @@ void GPIO_IRQPriorityConfig(uint8_t IRQNumber, uint8_t IRQPriority)
 	uint8_t shift_amount= (8*iprx_section) + (8 - NO_PR_BITS_IMPLEMENTED);
 	*(NVIC_PR_BASE_ADDR + (iprx)) |= (IRQPriority << shift_amount);
 }
-/*====================================================================
- * FUNCTION:
- *
- * BRIEF:
- *
- * PARAMETER 1:
- * PARAMETER 2:
- * PARAMETER 3:
- *
- * RETURN:
- *
- * NOTE:
- ====================================================================*/
+
+
+
 void GPIO_IRQHandling(uint8_t PinNumber)
 {
 	if(EXTI->PR & (1 << PinNumber)){
