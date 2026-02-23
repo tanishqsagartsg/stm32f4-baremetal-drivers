@@ -30,8 +30,24 @@ typedef struct{
 typedef struct{
 	SPI_RegDef_t *pSPIx;
 	SPI_Config_t SPIConfig;
+	uint8_t *pTxBuffer;
+	uint8_t *pRxBuffer;
+	uint32_t TxLen;
+	uint32_t RxLen;
+	uint8_t TxState;
+	uint8_t RxState;
 }SPI_Handle_t;
 //=================================================================================================================================
+
+
+
+
+//SPI APPLICATION STATES===========================
+#define SPI_EVENT_TX_CMPLT						0
+#define SPI_EVENT_RX_CMPLT						1
+#define SPI_EVENT_OVR_ERR						2
+#define SPI_EVENT_CRC_ERR						3
+
 
 
 
@@ -91,6 +107,14 @@ typedef struct{
 #define  SPI_TXE_FLAG (1 << SPI_SR_TXE)
 #define  SPI_RXNE_FLAG (1 << SPI_SR_RXNE)
 #define  SPI_BSY_FLAG (1 << SPI_SR_BSY)
+
+
+
+//
+#define SPI_READY 						0
+#define SPI_BUSY_IN_RX 					1
+#define SPI_BUSY_IN_TX 					2
+
 //=================================================================================================================================
 
 
@@ -114,6 +138,11 @@ void SPI_DeInit(SPI_RegDef_t *pSPIx);
 //DATA SEND AND RECIEVE===================================================
 void SPI_SendData(SPI_RegDef_t *pSPIx, uint8_t *pTXBuffer, uint32_t Len);
 void SPI_RecieveData(SPI_RegDef_t *pSPIx, uint8_t *pRXBuffer, uint32_t Len);
+
+
+
+uint8_t SPI_SendDataIT(SPI_Handle_t *pSPIHandle, uint8_t *pTXBuffer, uint32_t Len);
+uint8_t SPI_RecieveDataIT(SPI_Handle_t *pSPIHandle, uint8_t *pRXBuffer, uint32_t Len);
 //======================================================================================================
 
 
@@ -141,6 +170,11 @@ void SPI_SSI_CONFIG(SPI_RegDef_t *pSPIx, uint8_t EnOrDi);
 void SPI_SSOE_CONFIG(SPI_RegDef_t *pSPIx, uint8_t EnOrDi);
 //=================================================================================================================================
 
+
+void SPI_ClearOvrFlag(SPI_RegDef_t *pSPIx);
+void SPI_CloseTransmission(SPI_Handle_t *pHandle);
+void SPI_CloseReception(SPI_Handle_t *pHandle);
+__weak void SPI_ApplicationEventCallBack(SPI_Handle_t *pHandle,uint8_t AppEv);
 
 
 

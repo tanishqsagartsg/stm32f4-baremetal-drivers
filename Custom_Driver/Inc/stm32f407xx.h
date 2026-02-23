@@ -8,8 +8,12 @@
 #ifndef INC_STM32F407XX_H_
 #define INC_STM32F407XX_H_
 #include<stdint.h>
+#include<stddef.h>
 
 
+
+
+#define 	__weak 			__attribute__((weak))
 
 
 //SOME GENERIC MACROS==========================================================================================================
@@ -198,6 +202,24 @@ typedef struct{
 typedef struct{
 	volatile uint32_t CR1;
 	volatile uint32_t CR2;
+	volatile uint32_t SR;
+	volatile uint32_t DR;
+	volatile uint32_t CRCPR;
+	volatile uint32_t RXCRCR;
+	volatile uint32_t TXCRCR;
+	volatile uint32_t I2SCFGR;
+	volatile uint32_t I2SPR;
+}SPI_RegDef_t;
+//=================================================================================================================================
+
+
+
+
+
+//=================================================================================================================================
+typedef struct{
+	volatile uint32_t CR1;
+	volatile uint32_t CR2;
 	volatile uint32_t OAR1;
 	volatile uint32_t OAR2;
 	volatile uint32_t DR;
@@ -211,19 +233,19 @@ typedef struct{
 
 
 
+
 //=================================================================================================================================
 typedef struct{
-	volatile uint32_t CR1;
-	volatile uint32_t CR2;
 	volatile uint32_t SR;
 	volatile uint32_t DR;
-	volatile uint32_t CRCPR;
-	volatile uint32_t RXCRCR;
-	volatile uint32_t TXCRCR;
-	volatile uint32_t I2SCFGR;
-	volatile uint32_t I2SPR;
-}SPI_RegDef_t;
+	volatile uint32_t BRR;
+	volatile uint32_t CR1;
+	volatile uint32_t CR2;
+	volatile uint32_t CR3;
+	volatile uint32_t GTPR;
+}USART_RegDef_t;
 //=================================================================================================================================
+
 
 
 
@@ -263,6 +285,14 @@ typedef struct{
 #define I2C2  	((I2C_RegDef_t*)I2C2_BASE_ADDR)
 #define I2C3  	((I2C_RegDef_t*)I2C3_BASE_ADDR)
 
+
+
+#define USART1  	((USART_RegDef_t*)USART1_BASE_ADDR)
+#define USART2  	((USART_RegDef_t*)USART2_BASE_ADDR)
+#define USART3  	((USART_RegDef_t*)USART3_BASE_ADDR)
+#define UART4  		((USART_RegDef_t*)UART4_BASE_ADDR)
+#define UART5  		((USART_RegDef_t*)UART5_BASE_ADDR)
+#define USART6  	((USART_RegDef_t*)USART6_BASE_ADDR)
 
 //
 
@@ -387,6 +417,7 @@ typedef struct{
 
 
 //====================================================================================================================================
+//IRQ NUMBERS FOR GPIO PINS WITH RESPECT TO THE EXTI LINES THEY ARE CONNECTED TO
 #define IRQ_NO_EXTI0		6
 #define IRQ_NO_EXTI1		7
 #define IRQ_NO_EXTI2		8
@@ -394,6 +425,27 @@ typedef struct{
 #define IRQ_NO_EXTI4		10
 #define IRQ_NO_EXTI9_5		23
 #define IRQ_NO_EXTI10_15	40
+
+
+
+//IRQ NO OF THE SPI LINES============================================================================================================
+#define IRQ_NO_SPI1		35
+#define IRQ_NO_SPI2		36
+#define IRQ_NO_SPI3		51
+#define IRQ_NO_SPI4		84
+#define IRQ_NO_SPI5		85
+#define IRQ_NO_SPI6		86
+
+
+
+//IRQ NO OF THE I2C LINES============================================================================================================
+#define IRQ_NO_I2C1_EV		31
+#define IRQ_NO_I2C1_ER		32
+#define IRQ_NO_I2C2_EV		33
+#define IRQ_NO_I2C2_ER		34
+#define IRQ_NO_I2C3_EV		79
+#define IRQ_NO_I2C3_ER		80
+
 //====================================================================================================================================
 
 
@@ -439,7 +491,7 @@ typedef struct{
 //=========================================================================================
 
 
-//BIT POSITION DEFINITION SPI_CR1=========================================================================================
+//BIT POSITION DEFINITION SPI_CR2=========================================================================================
 #define SPI_CR2_RXDMAEN 	0
 #define SPI_CR2_TXDMAEN		1
 #define SPI_CR2_SSOE 		2
@@ -469,55 +521,144 @@ typedef struct{
 
 
 
-//BIT POSITION DEFINITIONS OF I2C PERIPHERALS=========================================================================================
-//******=========================================================================================
-//BIT POSITION DEFINITION I2C_CR1=========================================================================================
-#define I2C_CR1_PE 			0
-#define I2C_CR1_SMBUS 		1
-#define I2C_CR1_SMBTYPE 	3
-#define I2C_CR1_ENARP 		4
-#define I2C_CR1_ENPEC 		5
-#define I2C_CR1_ENGC 		6
-#define I2C_CR1_NOSTRECH 	7
-#define I2C_CR1_START 		8
-#define I2C_CR1_STOP		9
-#define I2C_CR1_ACK 		10
-#define I2C_CR1_POS 		11
-#define I2C_CR1_PEC 		12
-#define I2C_CR1_ALERT 		13
-#define I2C_CR1_SWRST		15
+/******************************************************************************************
+ *Bit position definitions of I2C peripheral
+ ******************************************************************************************/
+/*
+ * Bit position definitions I2C_CR1
+ */
+#define I2C_CR1_PE						0
+#define I2C_CR1_NOSTRETCH  				7
+#define I2C_CR1_START 					8
+#define I2C_CR1_STOP  				 	9
+#define I2C_CR1_ACK 				 	10
+#define I2C_CR1_SWRST  				 	15
+
+/*
+ * Bit position definitions I2C_CR2
+ */
+#define I2C_CR2_FREQ				 	0
+#define I2C_CR2_ITERREN				 	8
+#define I2C_CR2_ITEVTEN				 	9
+#define I2C_CR2_ITBUFEN 			    10
+
+/*
+ * Bit position definitions I2C_OAR1
+ */
+#define I2C_OAR1_ADD0    				 0
+#define I2C_OAR1_ADD71 				 	 1
+#define I2C_OAR1_ADD98  			 	 8
+#define I2C_OAR1_ADDMODE   			 	15
+
+/*
+ * Bit position definitions I2C_SR1
+ */
+
+#define I2C_SR1_SB 					 	0
+#define I2C_SR1_ADDR 				 	1
+#define I2C_SR1_BTF 					2
+#define I2C_SR1_ADD10 					3
+#define I2C_SR1_STOPF 					4
+#define I2C_SR1_RXNE 					6
+#define I2C_SR1_TXE 					7
+#define I2C_SR1_BERR 					8
+#define I2C_SR1_ARLO 					9
+#define I2C_SR1_AF 					 	10
+#define I2C_SR1_OVR 					11
+#define I2C_SR1_TIMEOUT 				14
+
+/*
+ * Bit position definitions I2C_SR2
+ */
+#define I2C_SR2_MSL						0
+#define I2C_SR2_BUSY 					1
+#define I2C_SR2_TRA 					2
+#define I2C_SR2_GENCALL 				4
+#define I2C_SR2_DUALF 					7
+
+/*
+ * Bit position definitions I2C_CCR
+ */
+#define I2C_CCR_CCR 					 0
+#define I2C_CCR_DUTY 					14
+#define I2C_CCR_FS  				 	15
 //=========================================================================================
 
 
 
 
-//BIT POSITION DEFINITION I2C_CR2=========================================================================================
-#define I2C_CR2_FREQ 		0
-#define I2C_CR2_ITERREN 	8
-#define I2C_CR2_ITEVTEN 	9
-#define I2C_CR2_ITBUFEN 	10
-#define I2C_CR2_DMAEN 		11
-#define I2C_CR2_LAST 		12
 //=========================================================================================
+//Bit position definitions USART_Sr
+
+#define USART_SR_PE          0   // Parity error
+#define USART_SR_FE          1   // Framing error
+#define USART_SR_NF          2   // Noise detected flag
+#define USART_SR_ORE         3   // Overrun error
+#define USART_SR_IDLE        4   // IDLE line detected
+#define USART_SR_RXNE        5   // Read data register not empty
+#define USART_SR_TC          6   // Transmission complete
+#define USART_SR_TXE         7   // Transmit data register empty
+#define USART_SR_LBD         8   // LIN break detection flag
+#define USART_SR_CTS         9   // CTS flag
+
+
+/*
+ * Bit position definitions USART_CR1
+ */
+#define USART_CR1_SBK        0   // Send break
+#define USART_CR1_RWU        1   // Receiver wakeup
+#define USART_CR1_RE         2   // Receiver enable
+#define USART_CR1_TE         3   // Transmitter enable
+#define USART_CR1_IDLEIE     4   // IDLE interrupt enable
+#define USART_CR1_RXNEIE     5   // RXNE interrupt enable
+#define USART_CR1_TCIE       6   // Transmission complete interrupt enable
+#define USART_CR1_TXEIE      7   // TXE interrupt enable
+#define USART_CR1_PEIE       8   // PE interrupt enable
+#define USART_CR1_PS         9   // Parity selection
+#define USART_CR1_PCE        10  // Parity control enable
+#define USART_CR1_WAKE       11  // Wakeup method
+#define USART_CR1_M          12  // Word length
+#define USART_CR1_UE         13  // USART enable
+#define USART_CR1_OVER8      15  // Oversampling mode
+
+
+/*
+ * Bit position definitions USART_CR2
+ */
+#define USART_CR2_ADD        0   // Address of the USART node (Bits 0-3)
+#define USART_CR2_LBDL       5   // LIN break detection length
+#define USART_CR2_LBDIE      6   // LIN break detection interrupt enable
+#define USART_CR2_LBCL       8   // Last bit clock pulse
+#define USART_CR2_CPHA       9   // Clock phase
+#define USART_CR2_CPOL       10  // Clock polarity
+#define USART_CR2_CLKEN      11  // Clock enable
+#define USART_CR2_STOP       12  // STOP bits (Bits 12-13)
+#define USART_CR2_LINEN      14  // LIN mode enable
 
 
 
+/*
+ * Bit position definitions USART_CR3
+ */
+#define USART_CR3_EIE        0   // Error interrupt enable
+#define USART_CR3_IREN       1   // IrDA mode enable
+#define USART_CR3_IRLP       2   // IrDA low-power
+#define USART_CR3_HDSEL      3   // Half-duplex selection
+#define USART_CR3_NACK       4   // Smartcard NACK enable
+#define USART_CR3_SCEN       5   // Smartcard mode enable
+#define USART_CR3_DMAR       6   // DMA enable receiver
+#define USART_CR3_DMAT       7   // DMA enable transmitter
+#define USART_CR3_RTSE       8   // RTS enable
+#define USART_CR3_CTSE       9   // CTS enable
+#define USART_CR3_CTSIE      10  // CTS interrupt enable
+#define USART_CR3_ONEBIT     11  // One sample bit method enable
 
-//BIT POSITION DEFINITION I2C_SR1=========================================================================================
-#define I2C_SR1_SB 			0
-#define I2C_SR1_ADDR 		1
-#define I2C_SR1_BTF 		2
-#define I2C_SR1_ADD10 		3
-#define I2C_SR1_STOPF 		4
-#define I2C_SR1_RxNE 		6
-#define I2C_SR1_TxE 		7
-#define I2C_SR1_BERR 		8
-#define I2C_SR1_ARLO		9
-#define I2C_SR1_AF			10
-#define I2C_SR1_OVR 		11
-#define I2C_SR1_PECERR 		12
-#define I2C_SR1_TIMEOUT 	14
-#define I2C_SR1_SMBALERT	15
+
+/*
+ * Bit position definitions USART_GTPR
+ */
+#define USART_GTPR_PSC       0   // Prescaler value (Bits 0-7)
+#define USART_GTPR_GT        8   // Guard time value (Bits 8-15)
 //=========================================================================================
 
 
@@ -527,7 +668,7 @@ typedef struct{
 #include"stm32f407xx_gpio_driver.h"
 #include"stm32f407xx_spi_driver.h"
 #include"stm32f407xx_i2c_driver.h"
-
-
+#include "stm32f407xx_usart_driver.h"
+#include "stm32f407xx_rcc_driver.h"
 
 #endif /* INC_STM32F407XX_H_ */

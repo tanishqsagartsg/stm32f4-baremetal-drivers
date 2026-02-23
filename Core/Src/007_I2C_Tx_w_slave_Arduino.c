@@ -90,7 +90,7 @@ int main(void){
 
 		delay();
 
-		I2C_MasterSendData(&I2C1_HANDLE, userdata, strlen((char*)userdata), SlaveAddr);
+		I2C_MasterSendData(&I2C1_HANDLE, userdata, strlen((char*)userdata), SlaveAddr, I2C_RS_ENABLED);
 	}
 
 	return 0;
